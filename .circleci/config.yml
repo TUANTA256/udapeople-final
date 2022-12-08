@@ -291,33 +291,38 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: travnels/circleci-nodejs-awscli:latest
+      - image: python:3.11-rc-alpine
     steps:
-      - run:
-            name: Install dependencies
-            command: |
-              npm i tar.gz
+      - checkout
       - attach_workspace:
           at: ~/
       - run:
+          name: "Install dependencies"
+          command: |
+            apk add --update tar gzip ansible nodejs npm curl && \
+            pip install awscli
+      - run:
           name: Get backend url
           command: |
-            export BACKEND_IP=$(tail -n 1 .circleci/ansible/inventory.txt)
-            echo BACKEND_IP
+            export BACKEND_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text )
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-            cat frontend/.env
+            cat frontend/.env                
       - run:
           name: Deploy frontend objects
           command: |
+            #!/bin/bash -eo pipefail
             cd frontend
             npm install
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"  
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"        
       - revert-migrations:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}" 
       - slack/notify:
