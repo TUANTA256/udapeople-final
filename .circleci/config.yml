@@ -68,6 +68,7 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-build
       - slack/notify:
+          channel: https://fptsoftwaremonde.slack.com/archives/C04E9R6ET4H
           event: fail
           template: basic_fail_1
   build-backend:
