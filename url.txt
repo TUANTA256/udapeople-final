@@ -1,17 +1,17 @@
 GITHUB and CIRCLECI link
 
-[URL01]: https://github.com/KapilsRepo/Udacity-devops-udapeople
-	 https://app.circleci.com/pipelines/github/KapilsRepo/Udacity-devops-udapeople
+[URL01]: https://github.com/TUANTA256/udapeople-final
+	 https://app.circleci.com/pipelines/github/TUANTA256/udapeople-final
 
 S3 Bucket
-[URL02]: http://udapeople-b75e2d8.s3-website-us-east-1.amazonaws.com/#/employees
+[URL02]: http://udapeople-e643afb.s3-website-us-east-1.amazonaws.com/#/employees
 
 CLOUDFRONT 
-[URL03]: http://d2bvrd6111vxb2.cloudfront.net/#/employees
+[URL03]: https://diyqywddg2gd8.cloudfront.net/#/employees/new
 
 Smoke-Test BackEnd
-[URL04]: http://44.201.142.233:3030/api/status
+[URL04]: http://44.201.159.94:3030/api/status
 
 
 PROMETHEUS
-[URL05]: http://ec2-54-88-241-69.compute-1.amazonaws.com:9090/graph
+[URL05]: http://ec2-44-201-159-94.compute-1.amazonaws.com:9090/targets
