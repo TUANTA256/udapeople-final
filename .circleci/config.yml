@@ -11,7 +11,7 @@ version: 2.1
 # recreate resources
 
 orbs:
-  slack: circleci/slack@4.10.1
+  slack: circleci/slack@4.12.0
 
 
 commands:
@@ -68,8 +68,22 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-build
       - slack/notify:
-          event: fail
-          template: basic_fail_1
+          event: pass
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*Build pass",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
   build-backend:
     docker:
       - image: circleci/node:13.8.0
