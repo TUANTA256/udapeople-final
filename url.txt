@@ -4,14 +4,14 @@ GITHUB and CIRCLECI link
 	 https://app.circleci.com/pipelines/github/TUANTA256/udapeople-final
 
 S3 Bucket
-[URL02]: http://udapeople-2729374.s3-website-us-east-1.amazonaws.com/#/employees
+[URL02]: http://udapeople-52cf32a.s3-website-us-east-1.amazonaws.com/#/employees
 
 CLOUDFRONT 
 [URL03]: https://d3p6jsgx2rghuu.cloudfront.net/#/employees/new
 
 Smoke-Test BackEnd
-[URL04]: http://54.84.28.108:3030/api/status
+[URL04]: http://3.92.32.185:3030/api/status
 
 
 PROMETHEUS
-[URL05]: http://ec2-44-201-159-94.compute-1.amazonaws.com:9090/targets
+[URL05]: http://ec2-3-88-221-223.compute-1.amazonaws.com:9090/targets
