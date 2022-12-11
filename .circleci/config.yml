@@ -227,21 +227,34 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["02:6b:ec:0d:9d:9b:51:86:53:d7:5d:a8:d9:20:f8:28"]
+          fingerprints: ["c9:b8:d5:c1:0b:3f:a8:d2:80:b9:d9:80:5e:7c:b8:94"]
       - attach_workspace:
           at: ~/
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible 
-            apk add --update nodejs npm 
+            apk add --update tar gzip ansible nodejs npm curl && \
             pip install awscli
+      - run:
+          name: Install ansible
+          command: |
+            apk add --update ansible                           
       - run:
           name: Configure server
           command: |
-            cd .circleci/ansible
-            cat inventory.txt
-            ansible-playbook -i inventory.txt configure-server.yml
+             echo ENVIRONMENT=production > backend/.env
+             echo TYPEORM_CONNECTION=postgres >> backend/.env
+             echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> backend/.env
+             echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> backend/.env
+             echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> backend/.env
+             echo TYPEORM_HOST=$TYPEORM_HOST >> "backend/.env"
+             echo TYPEORM_PORT=$TYPEORM_PORT >> "backend/.env"
+             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
+             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
+             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env" 
+             cat backend/.env
+             cd .circleci/ansible
+             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"        
       - revert-migrations:
@@ -333,7 +346,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["02:6b:ec:0d:9d:9b:51:86:53:d7:5d:a8:d9:20:f8:28"]
+          fingerprints: ["c9:b8:d5:c1:0b:3f:a8:d2:80:b9:d9:80:5e:7c:b8:94"]
       - attach_workspace:
           at: ~/
       - run:
